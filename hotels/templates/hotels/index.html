@@ -1,0 +1,44 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Reserver Hotel</title>
+    <link rel="stylesheet" href="{% static 'hotels/css/style.css' %}" />
+</head>
+<body>
+    <div id="header">
+        <h1>Welcome to Reserver Hotel</h1>
+    </div>
+    <div id="step">
+        <span class="current" id="search_step">Search ></span>
+        <span id="choose_hotel_step">Choose Hotel ></span>
+        <span id="choose_room_type_step">Choose Room Type ></span>
+        <span id="confirm_step">Confirm Reservation</span>
+    </div>
+    <div id="searchHotel">
+            <form id="search" action="searchHotel/" method="post">{% csrf_token %}
+                <h2>Search Hotel</h2>
+                <table class="well-table">
+                    <tr>
+                        <td><label for="city">City</label></td>
+                        <td><input id="city" type="text" name="city"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="checkin">Check in</label></td>
+                        <td><input name="checkin" id="checkin" type="date"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="checkout">Check out</label></td>
+                        <td><input name="checkout" id="checkout" type="date"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Submit"/></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+    </div>
+    <script type="text/javascript" src="{% static 'hotels/js/common.js' %}"></script>
+</body>
+</html>

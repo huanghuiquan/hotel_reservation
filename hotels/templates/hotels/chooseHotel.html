@@ -1,0 +1,87 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Hotel</title>
+    <link rel="stylesheet" href="{% static 'hotels/css/style.css' %}" />
+</head>
+<body>
+    <div id="header">
+        <h1>Welcome to Reserver Hotel</h1>
+    </div>
+    <div id="step">
+        <span id="search_step">Search ></span>
+        <span class="current" id="choose_hotel_step">Choose Hotel ></span>
+        <span id="choose_room_type_step">Choose Room Type ></span>
+        <span id="confirm_step">Confirm Reservation</span>
+    </div>
+    <div id="context">
+        <div id="summary">
+            <h2>Summary</h2>
+            <table class="well-table">
+                <tr>
+                    <td>City</td>
+                    <td>{{ key }}</td>
+                </tr>
+                <tr>
+                    <td>Check in</td>
+                    <td>{{ check_in_time}}</td>
+                </tr>
+                <tr>
+                    <td>Check out</td>
+                    <td>{{ check_out_time}}</td>
+                </tr>
+            </table>
+        </div>
+        <p><a href="{% url 'hotels:index'  %}"><-Search again</a></p>
+        <div id="searchResult">
+            <h2>Search Result</h2>
+            <div id="sortBy">
+                Sort Result By:
+                <input id="star" type="radio" name="sortBy"/>
+                <label for="star">High Star</label>
+                <input id="name" type="radio" name="sortBy"/>
+                <label for="name">Name</label>
+            </div>
+            <table id="hotelList" class="well-table">
+                <tr>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+                {% if hotel_list %}
+                    {% for hotel in hotel_list %}
+                    <tr>
+                        <td>{{ hotel.name }},{{ key }}({{ hotel.star }}*)</td> 
+                        <td><a class="continue" data-hotelId="{{hotel.id}}" href="#">Continue-></a></td>
+                    {% endfor %}
+                    </tr>
+                {% else %}
+                    <p>No hotels are available.</p>
+                {% endif %}
+            </table>
+        </div>
+    </div> 
+
+    <form id="virtual" style="display:none" method="POST">
+        <table class="well-table">
+            <tr>                   
+                <td><input id="city" type="text" name="city" value="{{ key }}"/></td>
+            </tr>
+            <tr>
+                <td><input name="checkin" id="checkin" type="date" value="{{ check_in_time}}"/></td>
+            </tr>
+            <tr>
+                <td><input name="checkout" id="checkout" type="date" value="{{ check_out_time }}"/></td>
+            </tr>
+            <tr>
+                <td><input id="submit" type="submit" value="Submit" style="display:none"/></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript" src="{% static 'hotels/js/common.js' %}"></script>
+    <script type="text/javascript" src="{% static 'hotels/js/ajax.js' %}"></script>
+</body>
+</html>

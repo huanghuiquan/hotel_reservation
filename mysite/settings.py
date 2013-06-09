@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',  #doesn't have site_ID
     'hotels',
-    'polls',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,7 +58,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -86,8 +84,8 @@ CACHE = {
 
 LANGUAGE_CODE = 'en-us'
 
-#TIME_ZONE = 'UTC'
 TIME_ZONE = 'UTC'
+# TIME_ZONE = 'CCT'
 
 USE_I18N = True
 

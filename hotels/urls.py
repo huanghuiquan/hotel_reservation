@@ -13,6 +13,6 @@ urlpatterns = patterns('',
 	url(r'^index/(?P<hotel_id>\d+)/confirm/$',views.confirm,name='confirm'),
 
 	url(r'^index/(?P<hotel_id>\d+)/success/$',views.success,name='success'),
-
-    url(r'^index/searchHotel/sortHotels/(?P<by>\w+)$',views.sortHotels,name='sortHotels'),
+	
+	url(r'^index/searchHotel/sortHotels/(?P<by>\w+)$',views.sortHotels,name='sortHotels'),
 )

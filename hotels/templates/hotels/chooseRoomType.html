@@ -1,0 +1,68 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Room Type</title>
+    <link rel="stylesheet" href="{% static 'hotels/css/style.css' %}" />
+</head>
+<body>
+    <div id="header">
+        <h1>Welcome to Reserver Hotel</h1>
+    </div>
+    <div id="step">
+        <span id="search_step">Search ></span>
+        <span id="choose_hotel_step">Choose Hotel ></span>
+        <span class="current" id="choose_room_type_step">Choose Room Type ></span>
+        <span id="confirm_step">Confirm Reservation</span>
+    </div>
+    <div id="context">
+        <div id="summary">
+            <h2>Summary</h2>
+            <table class="well-table">
+                <tr>
+                    <td>Hotel Name</td>
+                    <td>{{ hotel_name }},{{ city_name }}({{ hotel_star }}*)</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>{{ city_name }}</td>
+                </tr>
+                <tr>
+                    <td>Check in</td>
+                    <td>{{ check_in_time }}</td>
+                </tr>
+                <tr>
+                    <td>Check out</td>
+                    <td>{{ check_out_time }}</td>
+                </tr>
+            </table>
+        </div>
+        <div id="ChooseRoomType">
+            <h2>Choose Room Type</h2>
+
+            <form action="../confirm/" method="post">
+                <table class="well-table">
+                    <tr>
+                        <td>Rooms <input id="roomTotal" type="number" value="1" name="roomTotal"/></td>
+                        <td>Room 1</td>
+                        <td>Adults<input type="number" name="room_1_adults"/></td>
+                        <td>Children <input type="number" name="room_1_children"/></td>
+                        <input id="city" type="text" name="city" value="{{ city_name }}" style="display:none"/>
+                        <input name="checkin" id="checkin" type="date" value="{{ check_in_time}}" style="display:none"/>
+                        <input name="checkout" id="checkout" type="date" value="{{ check_out_time }}" style="display:none"/>
+                    </tr>
+                </table>
+                <input id="submit" type="submit" style="display: none"/>
+            </form>
+        </div>
+        {% if error == 1 %}
+        <div class="error" style="display:display">
+            <p>Sorry, there some room types we can't match</p>
+        </div>
+        {% endif %}
+        <p><a id="back" href="#"><-Back</a> <a id="submitRoomType" href="##" style="float: right">Continue-></a></p>
+    </div>
+    <script type="text/javascript" src="{% static 'hotels/js/common.js' %}"></script>
+</body>
+</html>

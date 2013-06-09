@@ -1,0 +1,19 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reserve Hotel Successful</title>
+    <link rel="stylesheet" href="{% static 'hotels/css/style.css' %}" />
+</head>
+<body>
+    <div id="header">
+        <h1>Welcome to Reserver Hotel</h1>
+    </div>
+
+    <div id="success">
+        <h2>Reserve Hotel Successful</h2>
+        <p>Your order number is <span id="orderNumber">{{ order_code }}</span>, please note down the number, you will be asked the order number when you go to the hotel.<p>
+    </div>
+</body>
+</html>

@@ -23,17 +23,34 @@ def searchHotel(request):
 	key = request.POST['city']
 	check_in_time = request.POST['checkin']
 	check_out_time = request.POST['checkout']
-	city_searched = Location.objects.get(city=key)
-	hotel_list = Hotel.objects.filter(located_id=city_searched.id)
-	context = Context({'hotel_list':hotel_list,
-				'key':key,
-				'check_in_time':check_in_time,
-				'check_out_time':check_out_time,
-				})
+	try:
+		city_searched = Location.objects.get(city=key)
+	except (KeyError, Location.DoesNotExist):
+		city_list = Location.objects.all()
+		print(city_list)
+		if(len(city_list)>10):
+			city_list_get = city_list[0:10]
+		else:
+			city_list_get = city_list
+		context = Context({
+			'city_list_get':city_list_get,
+			'check_in_time':check_in_time,
+			'check_out_time':check_out_time,
+			})
+		return render_to_response('hotels/recommendCity.html',context)
+	else:
+		hotel_list = Hotel.objects.filter(located_id=city_searched.id)
+		context = Context({
+			'hotel_list':hotel_list,
+			'key':key,
+			'check_in_time':check_in_time,
+			'check_out_time':check_out_time,
+			})
 	return render_to_response('hotels/chooseHotel.html',context)
 
 @csrf_exempt
 def checkRoom(request,hotel_id):
+	error = 0
 	p = get_object_or_404(Hotel,pk=hotel_id)
 	hotel = Hotel.objects.get(id=hotel_id)
 	hotel_name = hotel.name
@@ -42,6 +59,7 @@ def checkRoom(request,hotel_id):
 	check_in_time = request.POST['checkin']
 	check_out_time = request.POST['checkout']
 	context = Context({
+			'error':error,
 			'hotel_name':hotel_name,
 			'hotel_star':hotel_star,
 			'city_name':city_name,
@@ -53,7 +71,7 @@ def checkRoom(request,hotel_id):
 @csrf_exempt
 def confirm(request,hotel_id):
 	p = get_object_or_404(Hotel,pk=hotel_id)
-
+	error = 0
 	hotel = Hotel.objects.get(id=hotel_id)
 	hotel_name = hotel.name
 	hotel_star = hotel.star
@@ -67,29 +85,61 @@ def confirm(request,hotel_id):
 	number_get = []
 	price_get = []
 	room_id_get = []
-	price_all = 0 
-	for i in range(1,int(room_total)+1):
-		adults_num = request.POST['room_'+str(i)+'_adults']
-		all_num[i-1].append(adults_num)
-		children_num = request.POST['room_'+str(i)+'_children']
-		all_num[i-1].append(children_num)
-		room = Room.objects.filter(adult=adults_num,children=children_num,belongto_id=hotel_id)
-		number_get = room[0].roomNumber
-		room_id_get.append(room[0].id)
-		all_num[i-1].append(number_get)
-		price_get = room[0].price
-		price_all += price_get
-		all_num[i-1].append(price_get)
-	context = Context({
+	price_all = 0
+	j_set = [0 for i in range(1,int(room_total)+1)]
+	try:
+		for i in range(1,int(room_total)+1):
+			adults_num = request.POST['room_'+str(i)+'_adults']
+			all_num[i-1].append(adults_num)
+			children_num = request.POST['room_'+str(i)+'_children']
+			all_num[i-1].append(children_num)
+			room = Room.objects.filter(adult=adults_num,children=children_num,belongto_id=hotel_id)
+			number_get = room[j_set[i-1]].roomNumber
+			if(i>=2):
+				print(all_num[i-2])
+				for a in all_num[0:i-1]:
+					if (number_get == a[2]):
+						j_set[i-1] += 1
+						number_get = room[j_set[i-1]].roomNumber
+			room_id_get.append(room[j_set[i-1]].id)
+			all_num[i-1].append(number_get)
+			price_get = room[j_set[i-1]].price
+			price_all += price_get
+			all_num[i-1].append(price_get)
+
+	except IndexError:
+		error = 1
+		print(error)
+		context = Context({
+			'error':error,
 			'hotel_name':hotel_name,
 			'hotel_star':hotel_star,
 			'city_name':city_name,
 			'check_in_time':check_in_time,
 			'check_out_time':check_out_time,
-			'all_num':all_num,
-			'price_all':price_all,
-			'room_id_get':room_id_get
 		})
+		return render_to_response('hotels/chooseRoomType.html',context)
+	except ValueError:
+		error = 1
+		context = Context({
+			'error':error,
+			'hotel_name':hotel_name,
+			'hotel_star':hotel_star,
+			'city_name':city_name,
+			'check_in_time':check_in_time,
+			'check_out_time':check_out_time,
+		})
+		return render_to_response('hotels/chooseRoomType.html',context)
+	context = Context({
+		'hotel_name':hotel_name,
+		'hotel_star':hotel_star,
+		'city_name':city_name,
+		'check_in_time':check_in_time,
+		'check_out_time':check_out_time,
+		'all_num':all_num,
+		'price_all':price_all,
+		'room_id_get':room_id_get
+	})
 	return render_to_response('hotels/confirmReservation.html',context)
 
 @csrf_exempt
@@ -113,15 +163,9 @@ def success(request,hotel_id):
 	order.save()
 	order_id = order.id
 	num_all = request.POST['room_all']
-	print(num_all)
-	print(len(num_all))
 	s = num_all[1:(len(num_all)-2)]
 	order_id_set = s.split('L,')
-	print(len(order_id_set))
-	print(s)
-
 	for i in range(0,len(order_id_set)):
-		print(int(order_id_set[i]))
 		booked = Booked(room_id=int(order_id_set[i]),order_id=order_id)
 		booked.save()
 	context = Context({
@@ -135,11 +179,13 @@ def sortHotels(request, by):
 	check_in_time = request.POST['checkin']
 	check_out_time = request.POST['checkout']
 	city_searched = Location.objects.get(city=key)
+	print check_out_time
 	if(by =="star"):
 		hotel_list = Hotel.objects.filter(located_id=city_searched.id).order_by("-star")
 	elif(by == "name"):
 		hotel_list = Hotel.objects.filter(located_id=city_searched.id).order_by("name")
 	return render_to_response('hotels/getHotelList.html', locals())
+
 
 
 

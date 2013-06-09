@@ -1,0 +1,14 @@
+<tr>
+    <th>Name</th>
+    <th></th>
+</tr>
+{% if hotel_list %}
+    {% for hotel in hotel_list %}
+    <tr>
+        <td>{{ hotel.name }},{{ key }}({{ hotel.star }}*)</td> 
+        <td><a class="continue" data-hotelId="{{hotel.id}}" href="#">Continue-></a></td>
+    {% endfor %}
+    </tr>
+{% else %}
+    <p>No hotels are available.</p>
+{% endif %}

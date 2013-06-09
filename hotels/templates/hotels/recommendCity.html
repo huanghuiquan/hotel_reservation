@@ -1,0 +1,59 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended City</title>
+    <link rel="stylesheet" href="{% static 'hotels/css/style.css' %}" />
+</head>
+<body>
+<div id="header">
+    <h1>Welcome to Reserver Hotel</h1>
+</div>
+<div id="context">
+    <div class="error">
+        <p>Sorry, City name is not found, you can see some hot cities we recommend.<p>
+    </div>
+    <p><a id="back" href="../checkRoom/"><-Back</a></p>
+    <div id="recommendedCity">
+        <h2>Recommend City</h2>
+        <table class="well-table">
+            <tr>
+                <th>Hot City</th>
+                <th>Country</th>
+                <th>Province</th>
+            </tr>
+            {% if city_list_get %}
+                {% for city in city_list_get %}
+                <tr>
+                    <td><a class="continue" data-hotelId="{{hotel.id}}" href="#">{{ city.city }}</a></td>
+                    <td>{{ city.country }}</td>
+                    <td>{{ city.province}}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <p>No city recommend</p>
+            {% endif %}
+        </table>
+    </div>
+</div>
+<form id="virtual_ano" action="../searchHotel/" method="post" style="display:none" method="POST">
+    <table class="well-table">
+        <tr>                   
+            <td><input id="city" type="text" name="city" value="1"/></td>
+        </tr>
+        <tr>
+            <td><input name="checkin" id="checkin" type="date" value="{{ check_in_time}}"/></td>
+        </tr>
+        <tr>
+            <td><input name="checkout" id="checkout" type="date" value="{{ check_out_time }}"/></td>
+        </tr>
+        <tr>
+            <td><input id="submit" type="submit" value="Submit" style="display:none"/></td>
+        <td></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript" src="{% static 'hotels/js/common.js' %}"></script>
+</body>
+</html>

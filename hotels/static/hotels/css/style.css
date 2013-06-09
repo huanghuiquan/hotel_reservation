@@ -1,0 +1,149 @@
+a{
+    color: darkgreen;
+    text-decoration: none;
+}
+body{
+    width: 1000px;
+    margin: 0 auto;
+    font-family: Georgia;
+}
+#header{
+    height: 80px;
+
+}
+#step{
+    height: 38px;
+    padding: 0px;
+    background: lightgray;
+    margin-bottom: 20px;
+}
+#step span{
+    display: block;
+    float: left;
+    padding:10px 20px;
+    margin: 0 2px;
+    background: darkseagreen;
+}
+#step .current{
+    color: navajowhite;
+}
+
+#searchHotel h2{
+    background: darkseagreen;
+    width: 200px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+
+#search table tr td:first-child{
+    text-align: right;
+    width: 10%;
+}
+
+table.well-table{
+    border-collapse: collapse;
+    width: 100%;
+}
+table.well-table tr td{
+    padding: 10px 5px;
+}
+table.well-table tr th{
+    padding: 10px 5px;
+    text-align: left;
+}
+table.well-table tr:nth-child(odd){
+    background-color: rgb(226, 226, 226);
+}
+table.well-table tr:nth-child(even){
+    background-color: rgb(240, 240, 240);
+}
+*table.well-table tr:hover{
+    background-color: lightgray;
+}
+
+#summary h2{
+    background: darkseagreen;
+    width: 150px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+
+}
+#sortBy{
+    background: rgb(240, 240, 240);
+}
+#searchResult h2{
+    background: darkseagreen;
+    width: 200px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+#sortBy{
+    padding: 10px;
+}
+
+input[type=number]{
+    width: 50px;
+}
+#ChooseRoomType h2{
+    background: darkseagreen;
+    width: 240px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+
+#confirmReservation h2{
+    background: darkseagreen;
+    width: 280px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+#billingInformation h2{
+    background: darkseagreen;
+    width: 280px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+input[type=submit]{
+    width: 80px;
+    height: 30px;
+}
+
+#success{
+    background: #9acd8d;
+    padding: 10px;
+    border-radius: 10px;
+    width: 980px;
+    margin: 0 auto;
+}
+
+#orderNumber{
+    background: lightyellow;
+    border-radius: 2px;
+    padding: 3px;
+}
+
+.error{
+    background: lightgoldenrodyellow;
+    border-radius: 6px;
+    padding: 3px;
+    padding-left: 20px;
+    box-shadow: 2px 2px 10px 1px rgb(253, 176, 176);
+    margin: 10px 0;
+}
+.error p{
+    margin:5px 0;
+}
+
+#recommendedCity h2{
+    background: darkseagreen;
+    width: 280px;
+    border-radius: 0 20px 0 0;
+    padding: 5px;
+    margin-bottom: 0px;
+}

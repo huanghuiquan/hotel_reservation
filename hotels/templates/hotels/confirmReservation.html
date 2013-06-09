@@ -1,0 +1,100 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Reservation</title>
+    <link rel="stylesheet" href="{% static 'hotels/css/style.css' %}" />
+</head>
+<body>
+    <div id="header">
+        <h1>Welcome to Reserver Hotel</h1>
+    </div>
+    <div id="step">
+        <span id="search_step">Search ></span>
+        <span id="choose_hotel_step">Choose Hotel ></span>
+        <span id="choose_room_type_step">Choose Room Type ></span>
+        <span class="current" id="confirm_step">Confirm Reservation</span>
+    </div>
+    <div id="context">
+        <div id="summary">
+            <h2>Summary</h2>
+            <table class="well-table">
+                <tr>
+                    <td>Hotel Name</td>
+                    <td>{{ hotel_name }},{{ city_name }}({{ hotel_star }}*)</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>{{ city_name }}</td>
+                </tr>
+                <tr>
+                    <td>Check in</td>
+                    <td>{{ check_in_time }}</td>
+                </tr>
+                <tr>
+                    <td>Check out</td>
+                    <td>{{ check_out_time }}</td>
+                </tr>
+            </table>
+        </div>
+        <div id="billingInformation">
+            <h2>Billing Information</h2>
+            <table class="well-table">
+                <tr>
+                    <th>Room Type</th>
+                    <th>Room No.</th>
+                    <th>Room Price</th>
+                </tr>
+                {% for all in all_num %}
+                <tr>
+                    <td>{{ all.0 }} Adults,{{ all.1}} Children</td> 
+                    <td>{{ all.2 }}</td>
+                    <td>${{ all.3 }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th>Total</th>
+                    <td></td>
+                    <td>${{ price_all }}</td>
+                </tr>
+            </table>
+        </div>
+        <div id="confirmReservation">
+            <h2>Confirm Reservation</h2>
+
+            <form action="../success/" method="post">
+                <table class="well-table">
+                    <tr>
+                        <td>Firstname</td>
+                        <td><input type="text" name="firstname"/></td>
+                    </tr>
+                    <tr>
+                        <td>Lastname</td>
+                        <td><input name="lastname" type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td>Special requirement</td>
+                        <td><textarea name="requirement" id="" cols="80" rows="10"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Smoking</td>
+                        <td>Yes<input type="radio" name="smoking" value="1"/> No<input type="radio" name="smoking" value="0"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="submit"/></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <input id="room_all" name="room_all" style="display:none" value="{{ room_id_get }}"/>
+                <input id="price_all" name="price_all" style="display:none" value="{{ price_all }}"/>
+                <input id="city" type="text" name="city" value="{{ city_name }}" style="display:none"/>
+                <input name="checkin" id="checkin" type="date" value="{{ check_in_time}}" style="display:none"/>
+                <input name="checkout" id="checkout" type="date" value="{{ check_out_time }}" style="display:none"/>
+            </form>
+        </div>
+        <p><a id="back" href="../checkRoom/"><-Back</a></p>
+    </div>
+    <script type="text/javascript" src="{% static 'hotels/js/common.js' %}"></script>
+</body>
+</html>
